@@ -1,10 +1,12 @@
 """
-QLoRA fine-tuning script — runs on free Colab/Kaggle GPU (T4 / P100).
-Fine-tunes a 7B/8B base model with LoRA adapters (4-bit).
+Sinhala Chatbot — QLoRA fine-tuning (free Colab/Kaggle GPU).
+
+Fine-tunes a multilingual 7B/8B instruct model on Sinhala conversations
+using LoRA adapters (4-bit). Uses the model's own chat template.
 
 Usage:
     export HF_TOKEN=hf_xxxx
-    python train.py --model unsloth/llama-3.1-8b-bnb-4bit --data data/train.json
+    python train.py --model unsloth/Qwen2.5-7B-Instruct-bnb-4bit --data data/train.json
 """
 
 import argparse
@@ -15,27 +17,19 @@ from datasets import Dataset
 from unsloth import FastLanguageModel
 from trl import SFTConfig, SFTTrainer
 
-# ---------- Config ----------
+
 def parse_args():
     p = argparse.ArgumentParser()
-    p.add_argument("--model", default="unsloth/llama-3.1-8b-bnb-4bit")
+    p.add_argument("--model", default="unsloth/Qwen2.5-7B-Instruct-bnb-4bit")
     p.add_argument("--data", default="data/train.json")
     p.add_argument("--output", default="outputs")
     p.add_argument("--max_seq_length", type=int, default=2048)
-    p.add_argument("--r", type=int, default=16)          # LoRA rank
-    p.add_argument("--max_steps", type=int, default=60)  # raise for real training
+    p.add_argument("--r", type=int, default=16)
+    p.add_argument("--max_steps", type=int, default=60)
     p.add_argument("--batch_size", type=int, default=2)
     p.add_argument("--push_to_hub", action="store_true")
     p.add_argument("--hub_repo", default="")
     return p.parse_args()
-
-
-def format_prompt(x):
-    return (
-        f"### Instruction:\n{x['instruction']}\n"
-        f"### Input:\n{x['input']}\n"
-        f"### Response:\n{x['output']}"
-    )
 
 
 def main():
@@ -62,10 +56,17 @@ def main():
         random_state=3407,
     )
 
-    # 3) Load + format dataset
+    # 3) Load conversations and apply chat template
     with open(args.data, "r", encoding="utf-8") as f:
-        raw = json.load(f)
-    dataset = Dataset.from_list([{"text": format_prompt(x)} for x in raw])
+        conversations = json.load(f)
+
+    def to_text(conv):
+        return tokenizer.apply_chat_template(
+            conv["messages"], tokenize=False, add_generation_prompt=False
+        )
+
+    texts = [to_text(c) for c in conversations]
+    dataset = Dataset.from_list([{"text": t} for t in texts])
 
     # 4) Train
     trainer = SFTTrainer(
@@ -96,7 +97,7 @@ def main():
     tokenizer.save_pretrained(args.output)
     print(f"✅ Saved adapters to ./{args.output}")
 
-    # 6) Push to Hugging Face Hub (models, not GitHub)
+    # 6) Push to Hugging Face Hub (adapters only — not GitHub)
     if args.push_to_hub:
         token = os.environ.get("HF_TOKEN")
         repo = args.hub_repo or args.output

@@ -7,3 +7,4 @@ datasets
 transformers
 torch
 huggingface_hub
+gradio
