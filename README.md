@@ -39,16 +39,27 @@ python chat.py --lora outputs   # fine-tuned adapters
 ```
 
 ## 🔓 FULL OPEN-SOURCE API server (self-hosted, no keys)
-OpenAI-compatible `/v1/chat/completions` server using an open-weight model — no
-proprietary API, no API keys. Drop-in for any OpenAI-style client.
+OpenAI-compatible `/v1/chat/completions` server. Supports 3 OPEN-SOURCE backends:
 
+**1. Local (loads open-weight model in-process, 4-bit):**
 ```bash
 pip install fastapi uvicorn sse-starlette unsloth
-python api.py --model unsloth/Qwen2.5-7B-Instruct-bnb-4bit
-python api.py --model unsloth/Qwen2.5-7B-Instruct-bnb-4bit --lora outputs
+python api.py --backend local --model unsloth/Qwen2.5-7B-Instruct-bnb-4bit
+python api.py --backend local --model unsloth/Qwen2.5-7B-Instruct-bnb-4bit --lora outputs
 ```
 
-Test:
+**2. Ollama (any GGUF model, very easy):**
+```bash
+ollama pull qwen2.5:7b          # install Ollama first
+python api.py --backend ollama --model qwen2.5:7b
+```
+
+**3. vLLM (high-throughput):**
+```bash
+python api.py --backend vllm --model Qwen/Qwen2.5-7B-Instruct --base-url http://localhost:8000/v1
+```
+
+Test any backend:
 ```bash
 curl http://localhost:8000/v1/chat/completions \
   -H "Content-Type: application/json" -d '{
