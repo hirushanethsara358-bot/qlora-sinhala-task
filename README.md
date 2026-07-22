@@ -5,47 +5,47 @@ Multilingual 7B/8B base model එකක් (Qwen2.5 / Llama-3.1) 4-bit එකට
 general assistant conversations දෙනකම් LoRA adapters පිටින් train කරනවා.
 Google Colab / Kaggle free GPU එකේම run වේ.
 
-## Features
-- General-purpose assistant (සිංහල + ඉංග්‍රීසි + වෙනත් භාෂා)
-- 4-bit base + LoRA → low VRAM (free T4 / P100)
-- Gradio demo with public share link
-- Optional: public instruction dataset එකක් භාවිතා කරලා වඩා බලවත් කරන්න
-
 ## Files
 ```
 qlora_project/
 ├── train.py             # QLoRA on your own data/train.json
-├── train_hf_dataset.py  # QLoRA on a PUBLIC dataset (more power)
+├── train_hf_dataset.py  # QLoRA on PUBLIC datasets (MIXED, more power)
 ├── chat.py              # Gradio general chat demo
 ├── requirements.txt
-├── data/
-│   └── train.json       # general assistant conversations (messages)
-├── outputs/             # adapters saved here (gitignored)
+├── data/train.json      # general assistant conversations
+├── outputs/             # adapters (gitignored)
 └── README.md
 ```
 
+## 🚀 MORE POWERFUL — recommended command
+```bash
+python train_hf_dataset.py \
+  --datasets "HuggingFaceH4/ultrachat_200k,Open-Orca/SlimOrca" \
+  --sample 3000 --r 32 --max_steps 600
+```
+- Mixes **general chat (UltraChat)** + **reasoning (SlimOrca)** → stronger, more correct.
+- `--r 32` = higher LoRA rank (more capacity). Free T4 handles it.
+- More `--sample` / `--max_steps` = more power (free tier: ~3000–5000 rows).
+
 ## Train on your own data
 ```bash
-pip install -r requirements.txt
 python train.py --model unsloth/Qwen2.5-7B-Instruct-bnb-4bit --data data/train.json
 ```
-
-## Train on a PUBLIC dataset (වඩා බලවත්)
-```bash
-python train_hf_dataset.py --dataset yahma/alpaca-cleaned --sample 2000 --max_steps 300
-```
-More data = better general ability. Free tier එකේ 1000–5000 samples ගන්න.
 
 ## Chat demo
 ```bash
 python chat.py                  # base model
-python chat.py --lora outputs   # with your fine-tuned adapters
+python chat.py --lora outputs   # fine-tuned adapters
 ```
 
+## Power tips
+1. **Data > everything**: use SlimOrca / FineTome / UltraChat, not tiny files.
+2. **Base model**: `unsloth/Qwen2.5-7B-Instruct-bnb-4bit` (top 7B). For P100 (16GB)
+   try `unsloth/Qwen2.5-14B-Instruct-bnb-4bit` (more power, slower).
+3. **LoRA rank**: 32–64 for capacity; watch VRAM.
+4. **Longer training**: more steps/epochs = better, within free GPU time.
+5. **Sinhala strength**: add a Sinhala instruct dataset (e.g. technolingua/sinhala-alpaca-10k).
+
 ## Notes
-- Model weights are NOT pushed to GitHub (use Hugging Face Hub for adapters).
-- Base instruct model is already a strong general chatbot; fine-tuning sets
-  persona/style + your preferred language mix.
-- හොඳම බලයට: විශාල public dataset + වැඩි max_steps.
-- Recommended base: `unsloth/Qwen2.5-7B-Instruct-bnb-4bit`,
-  `unsloth/llama-3.1-8b-bnb-4bit`.
+- Weights NOT pushed to GitHub (use Hugging Face Hub for adapters).
+- Free-tier training ceiling ≈ 7B–14B. For 70B+ "frontier" power, use an API.

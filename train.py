@@ -24,7 +24,7 @@ def parse_args():
     p.add_argument("--data", default="data/train.json")
     p.add_argument("--output", default="outputs")
     p.add_argument("--max_seq_length", type=int, default=2048)
-    p.add_argument("--r", type=int, default=16)
+    p.add_argument("--r", type=int, default=32)
     p.add_argument("--max_steps", type=int, default=60)
     p.add_argument("--batch_size", type=int, default=2)
     p.add_argument("--push_to_hub", action="store_true")
