@@ -10,7 +10,10 @@ Google Colab / Kaggle free GPU එකේම run වේ.
 qlora_project/
 ├── train.py             # QLoRA on your own data/train.json
 ├── train_hf_dataset.py  # QLoRA on PUBLIC datasets (MIXED, more power)
-├── chat.py              # Gradio general chat demo
+├── chat.py              # Gradio general chat demo (local model)
+├── chat_api.py          # Chat UI via FREE API (Groq/OpenRouter/Together, 70B+)
+├── api.py               # FULL open-source API server (local/Ollama/vLLM, no keys)
+├── ui/index.html        # Static web chat UI (host on InfinityFree)
 ├── requirements.txt
 ├── data/train.json      # general assistant conversations
 ├── outputs/             # adapters (gitignored)
@@ -86,6 +89,19 @@ python chat_api.py --provider groq
 ```
 Supported: groq, together, openrouter, fireworks (OpenAI-compatible).
 API key is entered at runtime only — never commit it.
+
+## 🌐 Web UI (InfinityFree hosting)
+Static chat UI in `ui/index.html` — host on InfinityFree (free static hosting)
+and point it at Groq (free 70B API) or your self-hosted `api.py`.
+
+```bash
+# upload ui/index.html to InfinityFree htdocs/ , then in UI ⚙️ set:
+#   Groq  -> Base URL https://api.groq.com/openai/v1 , Key gsk_xxx , Model llama-3.3-70b-versatile
+#   Local -> Base URL http://YOUR_HOST:8000/v1 , Key empty , Model local
+```
+See `ui/README.md` for full steps. (InfinityFree serves static files only;
+the model/API runs elsewhere — Groq free or your own server. `api.py` already
+sends `CORS *` so the UI can call it cross-origin.)
 
 ## Power tips
 1. **Data > everything**: use SlimOrca / FineTome / UltraChat, not tiny files.

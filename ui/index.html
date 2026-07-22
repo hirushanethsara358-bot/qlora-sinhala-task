@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>සිංහල / English AI Chatbot</title>
+<style>
+  :root{--bg:#0f1115;--panel:#1a1d24;--user:#2563eb;--bot:#22c55e;--text:#e5e7eb;--muted:#9ca3af;}
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Noto Sans Sinhala","Segoe UI",system-ui,sans-serif;
+       background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;}
+  header{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--panel);
+         border-bottom:1px solid #2a2f3a;}
+  header h1{font-size:16px;margin:0;flex:1;}
+  button.gear{background:#2a2f3a;border:none;color:var(--text);font-size:18px;
+              width:38px;height:38px;border-radius:8px;cursor:pointer;}
+  #chat{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;}
+  .msg{max-width:80%;padding:10px 14px;border-radius:14px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word;}
+  .msg.user{align-self:flex-end;background:var(--user);border-bottom-right-radius:4px;}
+  .msg.bot{align-self:flex-start;background:var(--panel);border-bottom-left-radius:4px;}
+  #inputbar{display:flex;gap:8px;padding:12px 16px;background:var(--panel);border-top:1px solid #2a2f3a;}
+  #input{flex:1;resize:none;height:44px;padding:10px 12px;border-radius:10px;border:none;
+         background:#0f1115;color:var(--text);font-family:inherit;font-size:15px;}
+  #send{background:var(--bot);border:none;color:#06281a;font-weight:700;padding:0 18px;border-radius:10px;cursor:pointer;}
+  /* settings modal */
+  #modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;}
+  #modal.show{display:flex;}
+  .card{background:var(--panel);padding:20px;border-radius:14px;width:90%;max-width:420px;display:flex;flex-direction:column;gap:10px;}
+  .card label{font-size:13px;color:var(--muted);}
+  .card input{background:#0f1115;border:1px solid #2a2f3a;color:var(--text);padding:9px 11px;border-radius:8px;font-family:inherit;}
+  .card .row{display:flex;gap:8px;}
+  .card button{flex:1;padding:10px;border-radius:8px;border:none;cursor:pointer;font-weight:600;}
+  .save{background:var(--bot);color:#06281a;}
+  .cancel{background:#2a2f3a;color:var(--text);}
+  .hint{font-size:12px;color:var(--muted);}
+  code{background:#0f1115;padding:1px 5px;border-radius:4px;}
+</style>
+</head>
+<body>
+<header>
+  <h1>🤖 සිංහල / English AI Chatbot</h1>
+  <button class="gear" id="gear" title="සැකසුම්">⚙️</button>
+</header>
+
+<div id="chat"></div>
+
+<div id="inputbar">
+  <textarea id="input" placeholder="පණිවිඩයක් ටයිප් කරන්න... (Enter යවන්න)"></textarea>
+  <button id="send">යවන්න</button>
+</div>
+
+<div id="modal">
+  <div class="card">
+    <label>API Base URL</label>
+    <input id="s-base" value="https://api.groq.com/openai/v1">
+    <label>API Key (රහස්‍ය — browser එකේම තබෙනවා)</label>
+    <input id="s-key" type="password" placeholder="gsk_... / sk-... (api.py local නම් හිහට් තියන්න)">
+    <label>Model</label>
+    <input id="s-model" value="llama-3.3-70b-versatile">
+    <p class="hint">Local api.py එකට නම් Base URL = <code>http://YOUR_HOST:8000/v1</code>, Key හිහට් තියන්න.</p>
+    <div class="row">
+      <button class="save" id="save">සුරකින්න</button>
+      <button class="cancel" id="cancel">වසන්න</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SYS = "ඔබ කරුණියා වන විශ්වීය AI සහායකයෙකි. සිංහල, ඉංග්‍රීසි හෝ වෙනත් භාෂාවකින් නිවැරදි, සිහිනුව් සහ පහසු පිළිතුරු දෙන්න.";
+const chat = document.getElementById("chat");
+const input = document.getElementById("input");
+const settings = JSON.parse(localStorage.getItem("chat_settings")||"{}");
+
+function addMsg(role, text){
+  const d = document.createElement("div");
+  d.className = "msg " + role;
+  d.textContent = text;
+  chat.appendChild(d);
+  chat.scrollTop = chat.scrollHeight;
+  return d;
+}
+function loadSettings(){ for(const k of ["base","key","model"]) if(settings[k]) document.getElementById("s-"+k).value = settings[k]; }
+function saveSettings(){ settings.base=document.getElementById("s-base").value.trim();
+  settings.key=document.getElementById("s-key").value.trim(); settings.model=document.getElementById("s-model").value.trim();
+  localStorage.setItem("chat_settings", JSON.stringify(settings)); }
+
+document.getElementById("gear").onclick = ()=>{ loadSettings(); document.getElementById("modal").classList.add("show"); };
+document.getElementById("cancel").onclick = ()=> document.getElementById("modal").classList.remove("show");
+document.getElementById("save").onclick = ()=>{ saveSettings(); document.getElementById("modal").classList.remove("show"); };
+
+async function send(){
+  const text = input.value.trim(); if(!text) return;
+  addMsg("user", text); input.value="";
+  const botEl = addMsg("bot", "…");
+  const base = (settings.base||"https://api.groq.com/openai/v1").replace(/\/$/,"");
+  const model = settings.model||"llama-3.3-70b-versatile";
+  const msgs = [{role:"system",content:SYS}];
+  document.querySelectorAll(".msg.user").forEach((u,i)=>{
+    const b = document.querySelectorAll(".msg.bot")[i];
+    msgs.push({role:"user",content:u.textContent});
+    if(b && b.textContent!=="…") msgs.push({role:"assistant",content:b.textContent});
+  });
+  msgs.push({role:"user",content:text});
+  const headers = {"Content-Type":"application/json"};
+  if(settings.key) headers["Authorization"] = "Bearer " + settings.key;
+  try{
+    const res = await fetch(base + "/chat/completions", {method:"POST",headers,
+      body: JSON.stringify({model, messages:msgs, temperature:0.7, stream:true})});
+    const reader = res.body.getReader(); const dec = new TextDecoder(); let buf="", out="";
+    while(true){ const {done,value}=await reader.read(); if(done) break;
+      buf += dec.decode(value,{stream:true});
+      const parts = buf.split("\n\n"); buf = parts.pop();
+      for(const p of parts){ if(!p.startsWith("data:")) continue;
+        const data = p.slice(5).trim(); if(data==="[DONE]") break;
+        try{ const j=JSON.parse(data); const d=j.choices?.[0]?.delta?.content||""; out+=d; botEl.textContent=out; chat.scrollTop=chat.scrollHeight; }
+        catch(e){} } }
+    if(out==="") botEl.textContent="(පිළිතුරක් නැහැ — key / URL පරීක්ෂා කරන්න)";
+  }catch(e){ botEl.textContent="⚠️ දෝෂයක්: "+e.message; }
+}
+document.getElementById("send").onclick = send;
+input.addEventListener("keydown", e=>{ if(e.key==="Enter" && !e.shiftKey){ e.preventDefault(); send(); } });
+</script>
+</body>
+</html>

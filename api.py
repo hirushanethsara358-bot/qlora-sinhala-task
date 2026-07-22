@@ -23,6 +23,7 @@ import uuid
 from typing import List
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 import torch
@@ -38,6 +39,13 @@ BACKEND = "local"
 UPSTREAM = None  # OpenAI client for ollama/vllm
 
 app = FastAPI(title="Open-Source Chatbot API (OpenAI-compatible)")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],   # InfinityFree (or any) frontend can call this API
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class Message(BaseModel):
