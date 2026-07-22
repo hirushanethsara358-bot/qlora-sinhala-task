@@ -38,6 +38,26 @@ python chat.py                  # base model
 python chat.py --lora outputs   # fine-tuned adapters
 ```
 
+## 🔓 FULL OPEN-SOURCE API server (self-hosted, no keys)
+OpenAI-compatible `/v1/chat/completions` server using an open-weight model — no
+proprietary API, no API keys. Drop-in for any OpenAI-style client.
+
+```bash
+pip install fastapi uvicorn sse-starlette unsloth
+python api.py --model unsloth/Qwen2.5-7B-Instruct-bnb-4bit
+python api.py --model unsloth/Qwen2.5-7B-Instruct-bnb-4bit --lora outputs
+```
+
+Test:
+```bash
+curl http://localhost:8000/v1/chat/completions \
+  -H "Content-Type: application/json" -d '{
+    "messages":[{"role":"user","content":"හෙලෝ, ඔයා කෙසේද?"}],
+    "stream": false
+  }'
+```
+Health: `GET /health`. Streaming supported (`"stream": true`).
+
 ## 🌐 Powerful chatbot via FREE API (70B+ models)
 For frontier-level power without training, use a free API:
 

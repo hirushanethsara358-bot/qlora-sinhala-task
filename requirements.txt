@@ -9,3 +9,6 @@ torch
 huggingface_hub
 gradio
 openai
+fastapi
+uvicorn
+sse-starlette
