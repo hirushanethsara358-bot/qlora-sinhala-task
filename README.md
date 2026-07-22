@@ -32,11 +32,29 @@ python train_hf_dataset.py \
 python train.py --model unsloth/Qwen2.5-7B-Instruct-bnb-4bit --data data/train.json
 ```
 
-## Chat demo
+## Chat demo (local fine-tuned model)
 ```bash
 python chat.py                  # base model
 python chat.py --lora outputs   # fine-tuned adapters
 ```
+
+## 🌐 Powerful chatbot via FREE API (70B+ models)
+For frontier-level power without training, use a free API:
+
+| Provider | Free | Models (70B+) | Sign up |
+|---|---|---|---|
+| Groq | ✅ | Llama-3.3-70B, Llama-3.1-70B, Qwen2.5-32B | console.groq.com |
+| OpenRouter | ✅ | Qwen2.5-72B, Llama-3.1-70B | openrouter.ai |
+| Together | ✅ $1 credit | Llama-3.3-70B, Qwen2.5-72B, DeepSeek-V3 | api.together.xyz |
+| Google AI Studio | ✅ | Gemini 1.5/2.0 Flash | aistudio.google.com |
+
+Run:
+```bash
+export GROQ_API_KEY=gsk_xxx        # or type key in UI
+python chat_api.py --provider groq
+```
+Supported: groq, together, openrouter, fireworks (OpenAI-compatible).
+API key is entered at runtime only — never commit it.
 
 ## Power tips
 1. **Data > everything**: use SlimOrca / FineTome / UltraChat, not tiny files.
