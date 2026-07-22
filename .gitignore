@@ -1,0 +1,25 @@
+# Model weights & checkpoints (use Hugging Face Hub instead)
+outputs/
+*.safetensors
+*.bin
+*.gguf
+*.pt
+*.pth
+
+# Hugging Face cache
+.hf_cache/
+.cache/
+~/.cache/huggingface/
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Env / secrets
+.env
+*.token
+
+# OS
+.DS_Store
+Thumbs.db

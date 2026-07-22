@@ -1,0 +1,12 @@
+[
+  {
+    "instruction": "සිංහල වාක්‍යය විග්‍රහ කරන්න",
+    "input": "මම ගෙදර යනවා",
+    "output": "subject=මම, verb=යනවා, place=ගෙදර"
+  },
+  {
+    "instruction": "සිංහල වාක්‍යය විග්‍රහ කරන්න",
+    "input": "ඔහු පොතක් කියවයි",
+    "output": "subject=ඔහු, verb=කියවයි, object=පොතක්"
+  }
+]
