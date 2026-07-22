@@ -30,6 +30,20 @@ python train_hf_dataset.py \
 - `--r 32` = higher LoRA rank (more capacity). Free T4 handles it.
 - More `--sample` / `--max_steps` = more power (free tier: ~3000–5000 rows).
 
+## 🧠 ADVANCED training (SFT → ORPO alignment)
+Two-stage, stronger training: SFT on instructions, then **ORPO** preference
+tuning (teaches the model to prefer better answers — no reward model needed).
+Longer context (4096) + higher LoRA rank (64).
+
+```bash
+python train_advanced.py \
+  --sft_data "HuggingFaceH4/ultrachat_200k" \
+  --pref_data "mlabonne/orpo-dpo-mix-40k" \
+  --sft_sample 2000 --pref_sample 2000 --r 64 --max_seq_length 4096
+```
+Flags: `--skip_sft` / `--skip_orpo` to run a single stage. More
+`--sft_steps` / `--orpo_steps` = better (free GPU time permitting).
+
 ## Train on your own data
 ```bash
 python train.py --model unsloth/Qwen2.5-7B-Instruct-bnb-4bit --data data/train.json
