@@ -1,44 +1,72 @@
 [
   {
     "messages": [
-      {"role": "system", "content": "ඔබ කරුණියා වන සිංහල AI සහායකයෙකි. සිංහලෙන් සරලව, නිවැරදිවත් හා සිහිනුවේ පිළිතුරු දෙන්න."},
-      {"role": "user", "content": "හෙලෝ, ඔයා කෙසේද?"},
-      {"role": "assistant", "content": "ආයුබෝවන්! මම හොඳින් ඉන්නවා. ඔබට කොහොමද උදව් කරන්න පුළුවන්?"}
+      {"role": "system", "content": "ඔබ කරුණියා වන විශ්වීය AI සහායකයෙකි. සිංහල, ඉංග්‍රීසි හෝ වෙනත් භාෂාවකින් නිවැරදි, සිහිනුව් සහ පහසු පිළිතුරු දෙන්න."},
+      {"role": "user", "content": "හෙලෝ, ඔයා කෙසේද? ඔයාට මට උදව් කරන්න පුළුවන්ද?"},
+      {"role": "assistant", "content": "ආයුබෝවන්! මම හොඳින් ඉන්නවා. ඔබට ඕනෑම දේවලක් උදව් කරන්න පුළුවන් — ලිවීම, කේතනය, ගණිතය, දැනුම් ප්‍රශ්න, පරිවර්තනය වැනි දේවල්. මොකක්හරි කියන්න!"}
     ]
   },
   {
     "messages": [
-      {"role": "system", "content": "ඔබ කරුණියා වන සිංහල AI සහායකයෙකි. සිංහලෙන් සරලව, නිවැරදිවත් හා සිහිනුවේ පිළිතුරු දෙන්න."},
-      {"role": "user", "content": "කෘතිම බුද්ධිය (AI) කියන්නේ මොකක්ද?"},
-      {"role": "assistant", "content": "කෘතිම බුද්ධිය යනු මනුෂ්‍ය බුද්ධියට සමානව කටයුතු කරන, පරිගණක පද්ධතිවලින් සෑදෙන තාක්ෂණයකි. එය ඉගෙනීම, තීරණ ගැනීම සහ භාෂා තේරුම් ගැනීම වැනි ක්‍රියාවලි කළ හැකිය."}
+      {"role": "system", "content": "ඔබ කරුණියා වන විශ්වීය AI සහායකයෙකි. සිංහල, ඉංග්‍රීසි හෝ වෙනත් භාෂාවකින් නිවැරදි, සිහිනුව් සහ පහසු පිළිතුරු දෙන්න."},
+      {"role": "user", "content": "What is photosynthesis? Explain simply."},
+      {"role": "assistant", "content": "Photosynthesis is the process plants use to make their own food. Using sunlight, water (from roots) and carbon dioxide (from air), they produce glucose (sugar) and oxygen. In short: sunlight + CO2 + water → sugar + oxygen. It happens in the green parts of plants, mainly leaves."}
     ]
   },
   {
     "messages": [
-      {"role": "system", "content": "ඔබ කරුණියා වන සිංහල AI සහායකයෙකි. සිංහලෙන් සරලව, නිවැරදිවත් හා සිහිනුවේ පිළිතුරු දෙන්න."},
-      {"role": "user", "content": "මට සිංහලෙන් ලියවිල්ලක් හදන්න උදව් කරන්න."},
-      {"role": "assistant", "content": "ඔව්, සතුටින්! ඔබට අවශ්‍ය ලියවිල්ලේ මාතෘකාව හා අන්තර්ගතය මට කියන්න — උදාහරණයක් විදිහට ආරම්භක ලිපියක්, ඉල්ලීමක් හෝ කථාවක්. මම එක සිංහලෙන් හදලා දෙන්නම්."}
+      {"role": "system", "content": "ඔබ කරුණියා වන විශ්වීය AI සහායකයෙකි. සිංහල, ඉංග්‍රීසි හෝ වෙනත් භාෂාවකින් නිවැරදි, සිහිනුව් සහ පහසු පිළිතුරු දෙන්න."},
+      {"role": "user", "content": "Write a Python function to check if a number is prime."},
+      {"role": "assistant", "content": "Here is a clear Python function:\n\n```python\ndef is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n```\n\nIt returns `True` for primes (e.g. 2, 3, 5, 7) and `False` otherwise. It only checks divisors up to √n for efficiency."}
     ]
   },
   {
     "messages": [
-      {"role": "system", "content": "ඔබ කරුණියා වන සිංහල AI සහායකයෙකි. සිංහලෙන් සරලව, නිවැරදිවත් හා සිහිනුවේ පිළිතුරු දෙන්න."},
-      {"role": "user", "content": "ශ්‍රී ලංකාවේ අගනුවර කුමක්ද?"},
-      {"role": "assistant", "content": "ශ්‍රී ලංකාවේ අගනුවර ශ්‍රී ජයවර්ධනපුර කෝට්ටේ වේ. වාණිජ කටයුතු වැඩිපුර කොළඹ නගරයේ සිදුවේ."}
+      {"role": "system", "content": "ඔබ කරුණියා වන විශ්වීය AI සහායකයෙකි. සිංහල, ඉංග්‍රීසි හෝ වෙනත් භාෂාවකින් නිවැරදි, සිහිනුව් සහ පහසු පිළිතුරු දෙන්න."},
+      {"role": "user", "content": "If a train travels 120 km in 2 hours, what is its average speed?"},
+      {"role": "assistant", "content": "Average speed = total distance ÷ total time.\n\nSpeed = 120 km ÷ 2 h = 60 km/h.\n\nSo the train's average speed is **60 km/h**."}
     ]
   },
   {
     "messages": [
-      {"role": "system", "content": "ඔබ කරුණියා වන සිංහල AI සහායකයෙකි. සිංහලෙන් සරලව, නිවැරදිවත් හා සිහිනුවේ පිළිතුරු දෙන්න."},
-      {"role": "user", "content": "පරිගණකයක් මන්දගාමී නම් මට කරන්න ඕනේ මොකක්ද?"},
-      {"role": "assistant", "content": "මෙසේ කරන්න: 1) නැවත ආරම්භ කරන්න, 2) පසුබිම් ක්‍රියාවලි (background apps) වසන්න, 3) ඩිස්ක් ඉඩ පරීක්ෂා කරන්න, 4) වයිරස් පරීක්ෂාවක් කරන්න, 5) RAM එක වැඩි කිරීම හෝ SSD එකක් යොදාගැනීම සිතා බලන්න."}
+      {"role": "system", "content": "ඔබ කරුණියා වන විශ්වීය AI සහායකයෙකි. සිංහල, ඉංග්‍රීසි හෝ වෙනත් භාෂාවකින් නිවැරදි, සිහිනුව් සහ පහසු පිළිතුරු දෙන්න."},
+      {"role": "user", "content": "මට කතාවක් සිංහලෙන් ලියන්න ඕනේ — පාසල් ක්‍රීඩා උත්සවයක් ගැන."},
+      {"role": "assistant", "content": "හරි, මෙසේ ලියන්න පුළුවන්:\n\n\"අපේ පාසලේ ක්‍රීඩා උත්සවය අද උදෑසන නගර ක්‍රීඩා පිටියේදී ආරම්භ වුණා. සිසුන් කණ්ඩායම් තරඟ කිහිපයකම දැඩි තරඟතාවයකින් කටයුතු කලා. ජයග්‍රාහකයන්ට සම්මාන ප්‍රදානය කිරීමෙන් උත්සවය සාර්ථකව නිමා වුණා.\"\n\nඔබට තව විස්තර එක්කළ හැකියි."}
     ]
   },
   {
     "messages": [
-      {"role": "system", "content": "ඔබ කරුණියා වන සිංහල AI සහායකයෙකි. සිංහලෙන් සරලව, නිවැරදිවත් හා සිහිනුවේ පිළිතුරු දෙන්න."},
-      {"role": "user", "content": "ඔබට ඉංග්‍රීසි සිංහලට පරිවර්තනය කරන්න පුළුවන්ද?"},
-      {"role": "assistant", "content": "ඔව්, පුළුවන්. ඔබ ඉංග්‍රීසි පෙළ දෙන්න, මම එය සිංහලට හොඳින් පරිවර්තනය කරලා දෙන්නම්. උදාහරණය: 'Good morning' → 'සුබ උදෑසනක්'."}
+      {"role": "system", "content": "ඔබ කරුණියා වන විශ්වීය AI සහායකයෙකි. සිංහල, ඉංග්‍රීසි හෝ වෙනත් භාෂාවකින් නිවැරදි, සිහිනුව් සහ පහසු පිළිතුරු දෙන්න."},
+      {"role": "user", "content": "Translate to Sinhala: 'The quick brown fox jumps over the lazy dog.'"},
+      {"role": "assistant", "content": "වේගවත් දුම්රිය කොහොඹා කුකුළා නිදන්නා වලසා උඩින් පානවා.\n\n(Note: this English sentence uses every letter of the alphabet, so a direct Sinhala translation loses that property, but the meaning is preserved.)"}
+    ]
+  },
+  {
+    "messages": [
+      {"role": "system", "content": "ඔබ කරුණියා වන විශ්වීය AI සහායකයෙකි. සිංහල, ඉංග්‍රීසි හෝ වෙනත් භාෂාවකින් නිවැරදි, සිහිනුව් සහ පහසු පිළිතුරු දෙන්න."},
+      {"role": "user", "content": "Can you summarize this in 2 sentences: 'Artificial intelligence is transforming industries. From healthcare to finance, AI systems automate tasks, analyze data, and assist humans. However, experts warn about bias, privacy, and the need for regulation.'"},
+      {"role": "assistant", "content": "AI is rapidly transforming industries like healthcare and finance by automating tasks and analyzing data. Yet experts caution that bias, privacy risks, and the need for regulation must be addressed."}
+    ]
+  },
+  {
+    "messages": [
+      {"role": "system", "content": "ඔබ කරුණියා වන විශ්වීය AI සහායකයෙකි. සිංහල, ඉංග්‍රීසි හෝ වෙනත් භාෂාවකින් නිවැරදි, සිහිනුව් සහ පහසු පිළිතුරු දෙන්න."},
+      {"role": "user", "content": "Give me 3 tips to learn a new language faster."},
+      {"role": "assistant", "content": "1. **Practice daily** — even 15 minutes beats a long weekly session.\n2. **Immerse yourself** — watch shows, listen to music, and read simple texts in the target language.\n3. **Speak from day one** — use language apps or talk with native speakers; mistakes are part of learning."}
+    ]
+  },
+  {
+    "messages": [
+      {"role": "system", "content": "ඔබ කරුණියා වන විශ්වීය AI සහායකයෙකි. සිංහල, ඉංග්‍රීසි හෝ වෙනත් භාෂාවකින් නිවැරදි, සිහිනුව් සහ පහසු පිළිතුරු දෙන්න."},
+      {"role": "user", "content": "What is the difference between supervised and unsupervised learning?"},
+      {"role": "assistant", "content": "**Supervised learning** uses labeled data — the model learns from input-output pairs (e.g., spam vs. not spam). **Unsupervised learning** uses unlabeled data — the model finds patterns or groups on its own (e.g., customer segmentation). In short: supervised = has answers provided; unsupervised = finds structure without answers."}
+    ]
+  },
+  {
+    "messages": [
+      {"role": "system", "content": "ඔබ කරුණියා වන විශ්වීය AI සහායකයෙකි. සිංහල, ඉංග්‍රීසි හෝ වෙනත් භාෂාවකින් නිවැරදි, සිහිනුව් සහ පහසු පිළිතුරු දෙන්න."},
+      {"role": "user", "content": "මට සෞඛ්‍ය ගැටලුවක් තියෙනවා, ඔයා උපදෙස් දෙන්න පුළුවන්ද?"},
+      {"role": "assistant", "content": "මම උපකාරක AI කෙනෙක් විතරයි, වෛද්‍යයෙක් නෙමෙයි. මම කලාන තොරතුරු දෙන්න පුළුවන් නමුත් වැදගත් තීරණ සඳහා වෛද්‍යවරයෙකුගේ උපදෙස් ගැනීම හොඳයි. ඔබට දැනගන්න අවශ්‍ය දෙය කියන්න, මම සාමාන්‍ය තොරතුරු දෙන්නම්."}
     ]
   }
 ]
