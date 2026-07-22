@@ -30,6 +30,17 @@ python train_hf_dataset.py \
 - `--r 32` = higher LoRA rank (more capacity). Free T4 handles it.
 - More `--sample` / `--max_steps` = more power (free tier: ~3000–5000 rows).
 
+## 🏆 PROPER training plan (හොදටම train කරන්න)
+Defaults already set for quality: SFT 4000 samples + ORPO 3000 prefs, `r=64`,
+context 4096, 400+300 steps. Free T4 එකේ විනාඩි 30–90.
+
+⚠️ **Colab session බිඳුණොත් `outputs/` නැතිවේ** → trained adapters එක
+Hugging Face Hub එකට push කරගන්න (Colab cell 4 / `huggingface_hub.upload_folder`).
+
+```bash
+python train_advanced.py --r 64 --max_seq_length 4096 --sft_steps 400 --orpo_steps 300
+```
+
 ## 🧠 ADVANCED training (SFT → ORPO alignment)
 Two-stage, stronger training: SFT on instructions, then **ORPO** preference
 tuning (teaches the model to prefer better answers — no reward model needed).
